@@ -1,0 +1,316 @@
+
+USE campusx; is a SQL command used to switch the currently active database within your database management system (DBMS).
+
+Breakdown:
+USE: This is the SQL keyword that indicates you want to change the database.
+campusx: This is the name of the database you want to make active. The semicolon (;) signifies the end of the command.
+
++++++++++
+
+Case Sensitivity in SQL Queries
+Generally, SQL is not case-sensitive for keywords. This means you can write SELECT, select, or even SeLeCt and it will produce the same result.
+
+However, there are some exceptions and considerations:
+
+Case Sensitivity for Identifiers
+Table and column names: These are usually case-sensitive. For example, a column named customer_name is different from Customer_Name.
+Database names: This can vary depending on the database system. Some systems are case-sensitive, while others are not.
+
+++++++++++
+
+## Understanding `SET @total = ...`
+
+### What is happening here?
+The statement `SET @total = (SELECT COUNT(*) FROM salaries WHERE salary_in_usd > 100000);` is essentially performing two actions:
+
+1. **Calculating a value:** The part `(SELECT COUNT(*) FROM salaries WHERE salary_in_usd > 100000)` counts the number of rows in the `salaries` table where the `salary_in_usd` is greater than 100000. This count is calculated and treated as a single value.
+2. **Assigning the value to a variable:** The `SET @total =` part assigns the calculated value to a variable named `@total`. This variable is a user-defined variable, often referred to as a session variable.
+
+### Breakdown:
+* **`SET`:** This SQL keyword is used to assign a value to a variable.
+* **`@total`:** This is the name of the user-defined variable. You can choose any name for your variable.
+* **`=`:** This is the assignment operator, similar to other programming languages.
+* **`(SELECT COUNT(*) FROM salaries WHERE salary_in_usd > 100000)`:** This is a subquery that calculates the count of salaries greater than 100000.
+
+### Why use it?
+* **Storing a calculated value:** You can store the result of a complex calculation in a variable for later use.
+* **Improving readability:** By assigning a meaningful name to the calculated value, you can make your code more readable.
+* **Reusing the value:** You can use the variable multiple times within the same query or stored procedure without recalculating it.
+
+### Example:
+```sql
+SET @total = (SELECT COUNT(*) FROM salaries WHERE salary_in_usd > 100000);
+SELECT @total AS high_earners;
+```
+
+This code will first calculate the number of employees earning more than $100000 and store it in the `@total` variable. Then, it will display the value of `@total` with the alias `high_earners`.
+
+**Would you like to see another example or explore other uses of user-defined variables?**
+
++++++++++++
+
+## The ROUND Function in SQL
+
+**The ROUND function in SQL is used to round a numeric value to a specified number of decimal places.**
+
+### Syntax:
+```sql
+ROUND(number, decimal_places)
+```
+
+* **number:** The numeric value you want to round.
+* **decimal_places:** The number of decimal places to round the number to. If omitted, the number is rounded to the nearest integer.
+
+### Examples:
+
+```sql
+SELECT ROUND(3.14159, 2); -- Returns 3.14
+SELECT ROUND(123.456, -1); -- Returns 120
+SELECT ROUND(123.456); -- Returns 123
+```
+
+### How Rounding Works:
+* If the digit after the specified decimal place is 5 or greater, the preceding digit is rounded up.
+* If the digit after the specified decimal place is less than 5, the preceding digit remains unchanged.
+
+### Important Points:
+* The `ROUND` function can be used with various numeric data types.
+* The returned data type depends on the input data type.
+* Some SQL dialects might have additional options or variations of the `ROUND` function.
+
+### Example Usage:
+Imagine you have a table named `products` with a column named `price` of decimal data type. To round the prices to two decimal places:
+
+```sql
+SELECT product_name, ROUND(price, 2) AS rounded_price
+FROM products;
+```
+
+This query will display the product name and the rounded price with two decimal places.
+
+**Would you like to see examples of the ROUND function in specific SQL databases (like MySQL, SQL Server, Oracle)? Or do you have a specific use case in mind?**
+
++++++++++++
+
+## Aliases in SQL
+
+**An alias is a temporary name given to a table or column within a SQL query.** It's used to make the query more readable or to avoid ambiguity when column names are similar across multiple tables.
+
+### Syntax:
+```sql
+SELECT column_name AS alias_name
+FROM table_name AS table_alias;
+```
+
+### Examples:
+
+#### Column Alias
+```sql
+SELECT first_name AS fname, last_name AS lname
+FROM customers;
+```
+This query renames the `first_name` column to `fname` and `last_name` to `lname` for the duration of the query.
+
+#### Table Alias
+```sql
+SELECT c.customer_id, o.order_id
+FROM customers AS c
+INNER JOIN orders AS o ON c.customer_id = o.customer_id;
+```
+Here, `customers` is aliased as `c` and `orders` as `o` for easier reference in the query.
+
+### Why Use Aliases?
+* **Improved Readability:** Complex queries with long column or table names can be made easier to understand by using shorter aliases.
+* **Avoiding Ambiguity:** When joining tables with similar column names, aliases prevent conflicts.
+* **Simplifying Expressions:** Aliases can be used to simplify expressions within calculations or functions.
+
+### Additional Notes:
+* Aliases are temporary and have no effect on the underlying data.
+* You can use double quotes or square brackets to enclose aliases if they contain special characters or are reserved keywords.
+* Aliases can be used with various SQL clauses like `WHERE`, `GROUP BY`, and `HAVING`.
+
+**Would you like to see more examples or explore specific use cases for aliases?**
+
++++++++++++++
+
+## Subqueries and Aliasing
+
+### Subqueries
+A subquery is a query nested within another query. It can be used in various parts of a SQL statement, such as the `WHERE`, `HAVING`, or `FROM` clause.
+
+**Types of Subqueries:**
+
+* **Scalar Subquery:** Returns a single value.
+  ```sql
+  SELECT employee_name
+  FROM employees
+  WHERE salary > (SELECT AVG(salary) FROM employees);
+  ```
+* **Multiple-Row Subquery:** Returns multiple rows and columns. Often used with `IN`, `EXISTS`, or `ANY/ALL` operators.
+  ```sql
+  SELECT customer_id, customer_name
+  FROM customers
+  WHERE customer_id IN (SELECT customer_id FROM orders);
+  ```
+* **Correlated Subquery:** References columns from the outer query.
+  ```sql
+  SELECT employee_name, department
+  FROM employees e
+  WHERE salary > (SELECT AVG(salary) FROM employees WHERE department = e.department);
+  ```
+
+### Aliasing and Subqueries
+Aliasing is especially useful when dealing with subqueries, particularly when:
+
+* **Using a subquery in the `FROM` clause:** The subquery must have an alias to be referenced in the main query.
+  ```sql
+  SELECT avg_salary
+  FROM (SELECT AVG(salary) AS avg_salary FROM employees) AS subquery;
+  ```
+* **Improving readability:** Giving meaningful aliases to subqueries can enhance code understanding.
+  ```sql
+  SELECT customer_name, total_orders
+  FROM customers c
+  INNER JOIN (SELECT customer_id, COUNT(*) AS total_orders
+              FROM orders
+              GROUP BY customer_id) o ON c.customer_id = o.customer_id;
+  ```
+
+### Key Points
+* Subqueries can significantly improve query flexibility and complexity.
+* Aliasing subqueries and columns within them enhances readability and maintainability.
+* Understanding different subquery types and their appropriate use is crucial for effective SQL programming.
+
+**Would you like to explore a specific type of subquery or alias usage in more detail?**
+
+++++++++++++++
+
+## GROUP BY in SQL
+
+**The GROUP BY clause is used to group rows based on one or more columns.** It's often used in conjunction with aggregate functions (like COUNT, SUM, AVG, MIN, MAX) to perform calculations on each group.
+
+### How it works:
+1. **Specifies grouping columns:** You indicate which columns should be used to form the groups.
+2. **Creates groups:** Rows with identical values in the specified columns are placed into the same group.
+3. **Applies aggregate functions:** Aggregate functions are applied to each group to calculate summary values.
+
+### Syntax:
+```sql
+SELECT column1, aggregate_function(column2)
+FROM table_name
+GROUP BY column1;
+```
+
+### Example:
+Let's say we have a table named `orders` with columns `customer_id` and `order_total`. To find the total order amount for each customer, we can use:
+
+```sql
+SELECT customer_id, SUM(order_total) AS total_order
+FROM orders
+GROUP BY customer_id;
+```
+
+This query will group the orders by `customer_id` and calculate the total order amount for each customer.
+
+### Common Use Cases:
+* Finding the total sales per product category
+* Calculating average salary per department
+* Counting the number of orders per customer
+* Determining the maximum value in each group
+
+**Key points to remember:**
+* Columns used in the `GROUP BY` clause must appear in the `SELECT` clause.
+* Aggregate functions are typically used with `GROUP BY` to calculate summary values for each group.
+* You can group by multiple columns to create more specific groups.
+
+**Would you like to see more examples or have a specific use case in mind?**
+
++++++++++++++
+
+## Inner Join
+
+**An Inner Join combines rows from two or more tables based on a related column between them.** It returns only the rows where there is a match between the specified columns in both tables.
+
+### Syntax:
+```sql
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+ON table1.column_name = table2.column_name;
+```
+
+### How it works:
+1. **Specify the tables:** You mention the tables you want to join.
+2. **Define the join condition:** You use the `ON` clause to specify the condition for joining the tables. This is usually a comparison between columns in both tables.
+3. **Select columns:** You choose the columns you want to retrieve from the joined tables.
+
+### Example:
+Let's say we have two tables:
+
+* **Customers** (customer_id, customer_name)
+* **Orders** (order_id, customer_id, order_date)
+
+To find the customer name for each order, we can use an inner join:
+
+```sql
+SELECT orders.order_id, customers.customer_name
+FROM orders
+INNER JOIN customers
+ON orders.customer_id = customers.customer_id;
+```
+
+This query will return a result set with order_id and the corresponding customer name for each order.
+
+### Visual Representation:
+
+[Image of an inner join]
+
+### Key points:
+* Only rows with matching values in the joined columns are included in the result.
+* The `INNER JOIN` keyword can be omitted, as it's the default join type.
+
+**Would you like to see an example with specific data or explore other types of joins like left join or right join?**
+
+++++++++++++++
+
+## DENSE_RANK() Function
+
+**DENSE_RANK()** is a window function used to assign a rank to each row within a result set, with no gaps in the ranking values. It's particularly useful when dealing with ties in data.
+
+### How it works:
+* Assigns a rank to each row within a partition.
+* Starts with 1 for the first row in each partition.
+* If multiple rows have the same value for the ordering columns, they are assigned the same rank.
+* Unlike `RANK()`, `DENSE_RANK()` does not skip ranks for ties.
+
+### Syntax:
+```sql
+DENSE_RANK() OVER (
+  PARTITION BY column1, column2, ...
+  ORDER BY column_to_order_by
+)
+```
+
+* **PARTITION BY:** Defines the partitions within the result set.
+* **ORDER BY:** Specifies the order of rows within each partition.
+
+### Example:
+Let's consider a table named `employees` with columns `department_id`, `salary`. We want to rank employees based on their salary within each department:
+
+```sql
+SELECT employee_id, department_id, salary,
+       DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_rank
+FROM employees;
+```
+
+This query will assign a rank to each employee based on their salary within their department. If two employees have the same salary in a department, they will both get the same rank.
+
+### Key Points:
+* `DENSE_RANK()` is often used in conjunction with `PARTITION BY` and `ORDER BY` clauses.
+* It returns consecutive ranks, even for tied values.
+* Useful for scenarios where you want to assign ranks without gaps.
+
+**Would you like to see a comparison with `RANK()` or explore other window functions?**
+
+++++++++++++++++++
+
