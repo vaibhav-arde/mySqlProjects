@@ -314,3 +314,103 @@ This query will assign a rank to each employee based on their salary within thei
 
 ++++++++++++++++++
 
+## CT in SQL: Common Table Expressions (CTE)
+
+**CT** stands for **Common Table Expression** in SQL. It's a powerful tool that allows you to define a temporary result set within a single SQL statement. This temporary result set can then be referenced multiple times within the same statement.
+
+### Key Points about CTEs:
+* **Temporary:** A CTE exists only for the duration of the query.
+* **Named:** You give a CTE a name for reference within the query.
+* **Reusable:** You can reference a CTE multiple times in the same query.
+* **Complex Queries:** CTEs are especially helpful for breaking down complex queries into smaller, more manageable parts.
+
+### Syntax:
+```sql
+WITH CTE_name AS (
+  SELECT column1, column2, ...
+  FROM table_name
+  WHERE condition
+)
+SELECT * FROM CTE_name;
+```
+
+### Example:
+```sql
+WITH Customers_With_Orders AS (
+  SELECT c.customer_id, c.customer_name, COUNT(o.order_id) AS total_orders
+  FROM customers c
+  LEFT JOIN orders o ON c.customer_id = o.customer_id
+  GROUP BY c.customer_id, c.customer_name
+)
+SELECT * FROM Customers_With_Orders
+WHERE total_orders > 2;
+```
+
+In this example:
+* We create a CTE named `Customers_With_Orders` to calculate the total orders for each customer.
+* We then use this CTE to find customers with more than 2 orders.
+
+### Benefits of Using CTEs:
+* **Improved readability:** Breaks down complex queries into smaller, more understandable parts.
+* **Enhanced performance:** Can sometimes improve query performance by reducing redundant calculations.
+* **Recursive queries:** CTEs can be used for recursive queries, such as hierarchical data structures.
+
+**Would you like to see more examples of CTEs or explore specific use cases?**
+
++++++++++++++
+
+## Pivot in SQL
+
+**Pivot** is a powerful SQL function that transforms rows of data into columns. It's particularly useful for summarizing data and creating cross-tabulations.
+
+### How it works:
+* **Identifies a pivot column:** This column's distinct values will become new column headers.
+* **Aggregates data:** Performs an aggregate function (like SUM, COUNT, AVG) on other columns based on the pivot column's values.
+
+### Syntax:
+```sql
+SELECT <non-pivot column>,
+       <pivot_column_value1> AS column1,
+       <pivot_column_value2> AS column2,
+       ...
+FROM
+(
+  SELECT <non-pivot column>, pivot_column, value_column
+  FROM your_table
+) AS source_table
+PIVOT
+(
+  <aggregate_function>(value_column)
+  FOR pivot_column IN ([pivot_column_value1], [pivot_column_value2], ...)
+) AS pivot_table;
+```
+
+### Example:
+Let's say we have a table named `Sales` with columns `Product`, `Region`, and `Amount`. We want to see the total sales for each product in different regions.
+
+```sql
+SELECT Product,
+       [East], [West], [South], [North]
+FROM 
+(
+  SELECT Product, Region, Amount
+  FROM Sales
+) AS SourceTable
+PIVOT
+(
+  SUM(Amount)
+  FOR Region IN ([East], [West], [South], [North])
+) AS PivotTable;
+```
+
+This query will transform the data from rows to columns, showing the total sales for each product in each region.
+
+### Important points:
+* The `IN` clause in the `PIVOT` operator specifies the distinct values from the pivot column that will become new columns.
+* The `aggregate_function` is applied to the `value_column` for each group defined by the pivot column.
+* Pivot is often used with subqueries to prepare the data before pivoting.
+
+**Would you like to see an example with a sample dataset or explore a specific use case for pivot?**
+
+***********
+

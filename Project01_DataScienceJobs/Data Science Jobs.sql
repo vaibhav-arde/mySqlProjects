@@ -19,6 +19,14 @@ ORDER BY cnt DESC
 LIMIT 5;
 
 
+SELECT t.company_locatiON, COUNT(t.company_size) AS 'cnt' 
+FROM (
+    SELECT * FROM salaries WHERE experience_level ='EN' AND company_size='L'
+) AS t  
+GROUP BY t.company_locatiON 
+ORDER BY cnt DESC
+LIMIT 5;
+
 
 
 /*3. Picture yourself AS a data scientist Working for a workforce management platform. Your objective is to calculate the percentage of employees. 
@@ -28,6 +36,7 @@ set @total = (SELECT COUNT(*) FROM salaries where salary_in_usd>100000);
 set @percentage= round((((SELECT @COUNT)/(SELECT @total))*100),2);
 SELECT @percentage AS '%  of people workINg remotly and havINg salary >100,000 USD';
 
+select round(123.46)
 
 
 
@@ -70,6 +79,36 @@ select year(current_date())-2
  Your goal is to Pinpoint Locations WHERE the average salary Has consistently Increased over the Past few years (Countries WHERE data is available for 3 years Only(this and pst two years) 
  providing Insights into Locations experiencing Sustained salary growth.*/
 
+select* from salaries;
+
+select work_year, company_location, job_title, experience_level, AVG(salary_in_usd) AS 'avg' from salaries GROUP BY work_year, company_location, job_title, experience_level ORDER BY work_year, company_location;
+
+select work_year, company_location, AVG(salary_in_usd) AS 'avg' 
+from salaries 
+WHERE work_year >= (select year(NOW())-2)
+and company_location='AE'
+GROUP BY work_year, company_location ORDER BY company_location, work_year ;
+
+select year(NOW())-2;
+select company_location, AVG(salary_in_usd) from salaries where company_location = 'AE' GROUP BY company_location;
+
+select company_location, AVG(salary_in_usd), COUNT(DISTINCT work_year ) as yr_count
+from salaries WHERE work_year >= (year(now())-2) GROUP BY company_location HAVING yr_count >= (3)
+
+(select t.company_location from 
+(select company_location, COUNT(DISTINCT work_year ) as yr_count
+from salaries WHERE work_year >= (year(now())-2) GROUP BY company_location HAVING yr_count >= (3))as t);
+
+select work_year, company_location, AVG(salary_in_usd) AS 'avg' 
+from salaries 
+WHERE work_year >= (select year(NOW())-2)
+and company_location IN (select t.company_location from 
+(select company_location, COUNT(DISTINCT work_year ) as yr_count
+from salaries GROUP BY company_location HAVING yr_count >= (3))as t)
+GROUP BY company_location, work_year ORDER BY company_location, work_year ;
+
+SHOW COLUMNS FROM salaries;
+
 WITH t AS
 (
  SELECT * FROM  salaries WHERE company_locatiON IN
@@ -103,6 +142,13 @@ SELECT company_locatiON, AVG(salary_IN_usd) AS AVG_salary,COUNT(DISTINCT work_ye
  /* 7.	Picture yourself AS a workforce strategist employed by a global HR tech startup. Your missiON is to determINe the percentage of  fully remote work for each 
  experience level IN 2021 and compare it WITH the correspONdINg figures for 2024, highlightINg any significant INcreASes or decreASes IN remote work adoptiON
  over the years.*/
+select * from salaries;
+select DISTINCT(experience_level) , DISTINCT(remote_ratio) from salaries;
+select DISTINCT(remote_ratio) from salaries;
+
+select experience_level, AVG(remote_ratio) from salaries where work_year='2021' GROUP BY experience_level
+
+
  WITH t1 AS 
  (
 		SELECT a.experience_level, total_remote ,total_2021, ROUND((((total_remote)/total_2021)*100),2) AS '2021 remote %' FROM
