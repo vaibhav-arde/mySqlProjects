@@ -19,9 +19,16 @@ CREATE TABLE playstore_data (
   Android_Ver VARCHAR(255)
 );
 
--- LOAD DATA INFILE "E:/CampusX/playstore.csv"
-LOAD DATA INFILE "/Users/vaibhavarde/Desktop/DATASCIENCE/CampusX/SQL/MySQLProjects/Project02_PlayStore/playstore.csv"
+LOAD DATA INFILE "E:/CampusX/playstore.csv"
 INTO TABLE playstore_data
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS;
+
+LOAD DATA INFILE '/Users/vaibhavarde/Desktop/DATASCIENCE/CampusX/SQL/MySQLProjects/Project02_PlayStore/playstore.csv'
+INTO TABLE playstore_data
+CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
@@ -249,7 +256,7 @@ call checking('business')
 
 
 -- Duration Time :- Duration time is how long  it takes system to completely understand the instructions given  from start to end  in proper order  and way.
--- Fetch Time :- Once the instructions are completed , fetch ttime is like the time it takes for  the system to hand back the results, it depend on how quickly  ths system
+-- Fetch Time :- Once the instructions are completed , fetch time is like the time it takes for  the system to hand back the results, it depend on how quickly  ths system
                 -- can find  and bring back what you asked for.
                 
 -- if query is simple  and have  to show large valume of data, fetch time will be large, If query is complex duration time will be large.
