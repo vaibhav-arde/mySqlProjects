@@ -412,5 +412,73 @@ This query will transform the data from rows to columns, showing the total sales
 
 **Would you like to see an example with a sample dataset or explore a specific use case for pivot?**
 
-***********
+***************
+
+## DDL, DML, DQL, and DCL with a Focus on GRANT and REVOKE
+
+### DDL (Data Definition Language)
+* Defines the database structure.
+* Commands: CREATE, ALTER, DROP, TRUNCATE, RENAME
+* Examples: 
+  * `CREATE TABLE customers (customer_id INT, name VARCHAR(50))`
+  * `ALTER TABLE customers ADD email VARCHAR(100)`
+  * `DROP TABLE orders`
+
+### DML (Data Manipulation Language)
+* Manipulates data within tables.
+* Commands: INSERT, UPDATE, DELETE, MERGE
+* Examples: 
+  * `INSERT INTO customers (customer_id, name) VALUES (1, 'John Doe')`
+  * `UPDATE customers SET name = 'Jane Doe' WHERE customer_id = 1`
+  * `DELETE FROM orders WHERE order_id = 100`
+
+### DQL (Data Query Language)
+* Retrieves data from the database.
+* Commands: SELECT
+* Examples: 
+  * `SELECT * FROM customers`
+  * `SELECT name FROM customers WHERE customer_id = 1`
+
+### DCL (Data Control Language)
+* Controls access to the database.
+* Commands: GRANT, REVOKE
+* Examples: 
+  * `GRANT SELECT ON customers TO user1`
+  * `REVOKE SELECT ON customers FROM user1`
+
+## GRANT and REVOKE
+
+### GRANT
+* **Purpose:** Assigns privileges to database users.
+* **Syntax:**
+  ```sql
+  GRANT privilege_name ON object_name TO user_name;
+  ```
+* **Example:** 
+  ```sql
+  GRANT SELECT, INSERT ON customers TO user1;
+  ```
+  This grants `user1` the permission to select and insert data into the `customers` table.
+
+### REVOKE
+* **Purpose:** Removes privileges granted to database users.
+* **Syntax:**
+  ```sql
+  REVOKE privilege_name ON object_name FROM user_name;
+  ```
+* **Example:** 
+  ```sql
+  REVOKE INSERT ON customers FROM user1;
+  ```
+  This removes the `INSERT` privilege from `user1` on the `customers` table.
+
+**Important Notes:**
+* Privileges can be granted or revoked on various database objects like tables, views, stored procedures, etc.
+* There are different types of privileges (SELECT, INSERT, UPDATE, DELETE, etc.) that can be granted or revoked.
+* The `WITH GRANT OPTION` clause can be used to allow users to grant the same privileges to other users.
+* Proper privilege management is essential for database security.
+
+**Would you like to explore specific examples or use cases for GRANT and REVOKE?**
+
+*******************
 
