@@ -840,5 +840,63 @@ By understanding the difference between duration and fetch time, you can effecti
 
 ******************
 
+## Window Functions in MySQL
+
+**Window functions** perform calculations across a set of rows related to the current row. Unlike aggregate functions that produce a single result for a group, window functions produce a result for each row in the result set.
+
+### Key Components of Window Functions:
+* **OVER clause:** Defines the window of rows to be considered for the calculation.
+  * `PARTITION BY`: Divides the result set into partitions.
+  * `ORDER BY`: Specifies the order of rows within each partition.
+  * `ROWS/RANGE`: Defines the size of the window (number of rows or range of values).
+
+### Types of Window Functions:
+
+1. **Aggregate Window Functions:**
+   * Perform calculations like `SUM`, `AVG`, `COUNT`, `MIN`, and `MAX` over a set of rows.
+   * Example: Calculate the running total of sales.
+
+2. **Ranking Functions:**
+   * Assign a rank or row number to each row within a partition.
+   * Examples: `RANK`, `DENSE_RANK`, `ROW_NUMBER`.
+
+3. **Distribution Functions:**
+   * Calculate the relative position of a row within a partition.
+   * Examples: `PERCENT_RANK`, `CUME_DIST`.
+
+4. **Lead and Lag Functions:**
+   * Access data from preceding or following rows.
+   * Examples: `LEAD`, `LAG`.
+
+### Example:
+```sql
+SELECT
+  employee_id,
+  department_id,
+  salary,
+  AVG(salary) OVER (PARTITION BY department_id) AS avg_salary_dept
+FROM employees;
+```
+This query calculates the average salary for each department and includes it in the result set for each employee.
+
+### Advantages of Window Functions:
+* Perform complex calculations without subqueries.
+* Improve query performance in certain cases.
+* Provide valuable insights into data relationships.
+
+### Common Use Cases:
+* Calculating running totals and moving averages.
+* Ranking and partitioning data.
+* Comparing current row values with previous or subsequent rows.
+* Analyzing time-series data.
+
+**Note:** Window functions were introduced in MySQL 8.0.
+
+**Would you like to explore specific window functions or use cases in more detail?**
+
+
+******************
+
+
 
 

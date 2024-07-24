@@ -19,6 +19,13 @@ CREATE TABLE playstore_data (
   Android_Ver VARCHAR(255)
 );
 
+LOAD DATA INFILE "/Users/vaibhavarde/Desktop/DATASCIENCE/CampusX/SQL/MySQLProjects/Project01_DataScienceJobs/salaries.csv"
+INTO TABLE playstore_data
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS;
+
 LOAD DATA INFILE "E:/CampusX/playstore.csv"
 INTO TABLE playstore_data
 FIELDS TERMINATED BY ','
