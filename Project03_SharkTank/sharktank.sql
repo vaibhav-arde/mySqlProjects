@@ -2,7 +2,7 @@ select * from sharktank
 
 truncate  table sharktank
 
-LOAD DATA INFILE "E:/CampusX/sharktank.csv"
+LOAD DATA INFILE "/Users/vaibhavarde/Desktop/DATASCIENCE/CampusX/SQL/MySQLProjects/Project03_SharkTank/sharktank.csv"
 INTO TABLE sharktank
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
