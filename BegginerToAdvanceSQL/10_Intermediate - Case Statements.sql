@@ -1,4 +1,5 @@
 -- Case Statements
+use Parks_and_Recreation;
 
 -- A Case Statement allows you to add logic to your Select Statement, sort of like an if else statement in other programming languages or even things like Excel
 
@@ -51,6 +52,7 @@ FROM employee_salary;
 -- Unfortunately Pawnee Council was extremely specific in their wording and Jerry was not included in the pay increases. Maybe Next Year.
 
 -- Now we need to also account for Bonuses, let's make a new column
+
 SELECT first_name, last_name, salary,
 CASE
 	WHEN salary > 45000 THEN salary + (salary * 0.05)
@@ -60,50 +62,4 @@ CASE
 	WHEN dept_id = 6 THEN salary * .10
 END AS Bonus
 FROM employee_salary;
-
 -- as you can see Ben is the only one who get's a bonus
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

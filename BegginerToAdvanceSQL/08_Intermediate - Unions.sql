@@ -1,4 +1,5 @@
 #UNIONS
+use Parks_and_Recreation;
 
 
 #A union is how you can combine rows together- not columns like we have been doing with joins where one column is put next to another
@@ -47,7 +48,6 @@ FROM employee_salary;
 SELECT first_name, last_name, 'Old'
 FROM employee_demographics
 WHERE age > 50;
-
 
 
 SELECT first_name, last_name, 'Old Lady' as Label

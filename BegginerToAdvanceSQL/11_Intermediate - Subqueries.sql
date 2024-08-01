@@ -1,4 +1,5 @@
 # Subqueries
+use Parks_and_Recreation;
 
 #So subqueries are queries within queries. Let's see how this looks.
 
@@ -65,30 +66,4 @@ FROM employee_demographics
 GROUP BY gender) AS Agg_Table
 GROUP BY gender
 ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
