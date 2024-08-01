@@ -1,10 +1,9 @@
 -- Triggers
-
+use Parks_and_Recreation;
 -- a Trigger is a block of code that executes automatically executes when an event takes place in a table.
 
 -- for example we have these 2 tables, invoice and payments - when a client makes a payment we want it to update the invoice field "total paid"
 -- to reflect that the client has indeed paid their invoice
-
 
 SELECT * FROM employee_salary;
 
@@ -35,7 +34,6 @@ DELIMITER ;
 
 -- Now let's run it and create it
 
-
 -- Now that it's created let's test it out.
 
 -- Let's insert a payment into the payments table and see if it updates in the Invoice table.
@@ -47,8 +45,6 @@ VALUES(13, 'Jean-Ralphio', 'Saperstein', 'Entertainment 720 CEO', 1000000, NULL)
 
 DELETE FROM employee_salary
 WHERE employee_id = 13;
-
-
 
 -- -------------------------------------------------------------------------
 

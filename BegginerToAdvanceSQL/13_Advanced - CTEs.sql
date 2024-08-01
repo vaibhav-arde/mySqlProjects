@@ -1,10 +1,10 @@
+use Parks_and_Recreation;
 -- Using Common Table Expressions (CTE)
 -- A CTE allows you to define a subquery block that can be referenced within the main query. 
 -- It is particularly useful for recursive queries or queries that require referencing a higher level
 -- this is something we will look at in the next lesson/
 
 -- Let's take a look at the basics of writing a CTE:
-
 
 -- First, CTEs start using a "With" Keyword. Now we get to name this CTE anything we want
 -- Then we say as and within the parenthesis we build our subquery/table we want
@@ -20,12 +20,9 @@ GROUP BY gender
 SELECT *
 FROM CTE_Example;
 
-
 -- Now if I come down here, it won't work because it's not using the same syntax
 SELECT *
 FROM CTE_Example;
-
-
 
 -- Now we can use the columns within this CTE to do calculations on this data that
 -- we couldn't have done without it.
@@ -82,30 +79,3 @@ GROUP BY gender
 SELECT gender, ROUND(AVG(sum_salary/count_salary),2)
 FROM CTE_Example
 GROUP BY gender;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

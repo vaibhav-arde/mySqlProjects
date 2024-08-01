@@ -1,3 +1,4 @@
+use Parks_and_Recreation;
 -- Using Temporary Tables
 -- Temporary tables are tables that are only visible to the session that created them. 
 -- They can be used to store intermediate results for complex queries or to manipulate data before inserting it into a permanent table.
