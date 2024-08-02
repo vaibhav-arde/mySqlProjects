@@ -76,7 +76,7 @@ BEGIN
 	SELECT *
 	FROM employee_salary
 	WHERE salary >= 60000;
-	SELElarge_salaries3CT *
+	SELECT * large_salaries3
 	FROM employee_salary
 	WHERE salary >= 50000;
 END $$
