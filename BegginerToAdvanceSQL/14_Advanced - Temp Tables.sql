@@ -12,7 +12,7 @@ last_name varchar(50),
 favorite_movie varchar(100)
 );
 
--- if we execute this it gets created and we can actualyl query it.
+-- if we execute this it gets created and we can actualy query it.
 
 SELECT *
 FROM temp_table;
